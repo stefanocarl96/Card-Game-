@@ -148,4 +148,15 @@ public class GameShould {
 
         game.pickCard("susan");
     }
+
+    @Test(expected = DidNotPickCardException.class)
+    public void not_allow_discard_without_picking() {
+
+        Game game = new Game(new Deck());
+
+        game.join("susan");
+        game.join("peter");
+
+        game.discard("susan");
+    }
 }

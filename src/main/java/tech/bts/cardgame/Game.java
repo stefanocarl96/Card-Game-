@@ -66,6 +66,10 @@ public class Game {
 
     public void discard(String username) {
 
+        if (!pickedCardByUsername.containsKey(username)) {
+            throw new DidNotPickCardException();
+        }
+
         pickedCardByUsername.remove(username);
     }
 
