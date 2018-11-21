@@ -48,6 +48,10 @@ public class Game {
             throw new PlayerNotInTheGameException();
         }
 
+        if (state != State.PLAYING) {
+            throw new NotPlayingException();
+        }
+
         Card pickedCard = pickedCardByUsername.get(username);
         if (pickedCard != null) {
             throw new CannotPick2CardsInARowException();

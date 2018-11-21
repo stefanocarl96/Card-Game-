@@ -138,4 +138,14 @@ public class GameShould {
         assertThat(pickedCard1, is(card2));
         assertThat(pickedCard2, is(card1));
     }
+
+    @Test(expected = NotPlayingException.class)
+    public void not_allow_picking_if_not_playing() {
+
+        Game game = new Game(new Deck());
+
+        game.join("susan");
+
+        game.pickCard("susan");
+    }
 }
