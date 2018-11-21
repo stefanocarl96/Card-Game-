@@ -3,6 +3,7 @@ package tech.bts.cardgame;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.HashSet;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
@@ -54,7 +55,7 @@ public class GameShould {
 
         // 3- assert/check something you expect
         assertThat(game.getState(), is(Game.State.OPEN));
-        assertThat(game.getPlayerNames(), is(Arrays.asList("john")));
+        assertThat(game.getPlayerNames(), is(new HashSet<>(Arrays.asList("john"))));
     }
 
     @Test
@@ -66,7 +67,7 @@ public class GameShould {
         game.join("mary");
 
         assertThat(game.getState(), is(Game.State.PLAYING));
-        assertThat(game.getPlayerNames(), is(Arrays.asList("john", "mary")));
+        assertThat(game.getPlayerNames(), is(new HashSet<>(Arrays.asList("john", "mary"))));
     }
 
     @Test(expected = JoiningNotAllowedException.class)

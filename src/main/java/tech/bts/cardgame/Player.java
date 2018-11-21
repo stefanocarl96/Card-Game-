@@ -3,18 +3,28 @@ package tech.bts.cardgame;
 public class Player {
 
     private String name;
-    private Hand hand;
+    private int discardCount;
+    private Card pickedCard;
 
     public Player(String name) {
         this.name = name;
+        this.discardCount = 0;
+        this.pickedCard = null;
     }
 
-    public void setHand(Hand hand) {
-        this.hand = hand;
+    public int getDiscardCount() {
+        return discardCount;
     }
 
-    public Hand getHand() {
-        return hand;
+    public void setDiscardCount(int discardCount) {
+        this.discardCount = discardCount;
     }
 
+    public Card getPickedCard() {
+        return pickedCard;
+    }
+
+    public void setPickedCard(Card pickedCard) {
+        this.pickedCard = pickedCard;
+    }
 }
