@@ -159,4 +159,24 @@ public class GameShould {
 
         game.discard("susan");
     }
+
+    @Test(expected = TooManyDiscardsException.class)
+    public void not_allow_more_than_2_discards() {
+
+        Deck deck = new Deck();
+        deck.add(new Card(3, 2, 5));
+        deck.add(new Card(3, 2, 5));
+        deck.add(new Card(3, 2, 5));
+        Game game = new Game(deck);
+
+        game.join("susan");
+        game.join("peter");
+
+        game.pickCard("susan");
+        game.discard("susan");
+        game.pickCard("susan");
+        game.discard("susan");
+        game.pickCard("susan");
+        game.discard("susan");
+    }
 }

@@ -13,12 +13,14 @@ public class Game {
     private State state;
     private List<String> usernames;
     private Map<String, Card> pickedCardByUsername;
+    private Map<String, Integer> dicardsByUsername;
 
     public Game(Deck deck) {
         this.deck = deck;
         this.state = State.OPEN;
         this.usernames = new ArrayList<>();
         this.pickedCardByUsername = new HashMap<>();
+        this.dicardsByUsername = new HashMap<>();
     }
 
     public State getState() {
@@ -32,6 +34,8 @@ public class Game {
         }
 
         usernames.add(username);
+
+        dicardsByUsername.put(username, 0);
 
         if (usernames.size() == 2) {
             state = State.PLAYING;
@@ -69,6 +73,13 @@ public class Game {
         if (!pickedCardByUsername.containsKey(username)) {
             throw new DidNotPickCardException();
         }
+
+        int discards = dicardsByUsername.get(username);
+        if (discards == 2) {
+            throw new TooManyDiscardsException();
+        }
+
+        dicardsByUsername.put(username, discards + 1);
 
         pickedCardByUsername.remove(username);
     }
