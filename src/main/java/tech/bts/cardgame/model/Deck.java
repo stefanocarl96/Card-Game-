@@ -32,7 +32,7 @@ public class Deck {
 
         Random random = new Random();
 
-        for (int i = 0; i < cards.size() - 1; i++) {
+        for (int i = 0; i < cards.size(); i++) {
 
             // pick a random index and swap it with card at index 'i'
             int randomIndex = random.nextInt(this.cards.size()); // random index
