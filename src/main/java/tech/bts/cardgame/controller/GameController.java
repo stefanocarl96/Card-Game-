@@ -1,11 +1,10 @@
 package tech.bts.cardgame.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-import tech.bts.cardgame.model.JoinGame;
+import org.springframework.web.bind.annotation.*;
+import tech.bts.cardgame.model.Card;
+import tech.bts.cardgame.model.Game;
+import tech.bts.cardgame.model.GameUser;
 import tech.bts.cardgame.service.GameService;
 
 @RestController
@@ -19,14 +18,23 @@ public class GameController {
     }
 
     @RequestMapping(method = RequestMethod.POST, path = "/games")
-    public void createGame() {
+    public long createGame() {
 
-        gameService.createGame();
+        Game game = gameService.createGame();
+        return game.getId();
     }
 
-    @RequestMapping(method = RequestMethod.PUT, path = "/games")
-    public void joinGame(@RequestBody JoinGame joinGame) {
+    @RequestMapping(method = RequestMethod.PUT, path = "/games/{gameId}/join")
+    public void joinGame(@RequestBody GameUser gameUser, @PathVariable("gameId") long gameId) {
 
-        gameService.joinGame(joinGame);
+        gameUser.setGameId(gameId);
+        gameService.joinGame(gameUser);
+    }
+
+    @RequestMapping(method = RequestMethod.PUT, path = "/games/{gameId}/pick")
+    public Card pickCard(@RequestBody GameUser gameUser, @PathVariable("gameId") long gameId) {
+
+        gameUser.setGameId(gameId);
+        return gameService.pickCard(gameUser);
     }
 }
