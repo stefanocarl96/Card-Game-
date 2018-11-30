@@ -1,4 +1,4 @@
-package tech.bts.cardgame;
+package tech.bts.cardgame.model;
 
 public class Card {
 

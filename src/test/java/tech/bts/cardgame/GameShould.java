@@ -1,6 +1,10 @@
 package tech.bts.cardgame;
 
 import org.junit.Test;
+import tech.bts.cardgame.exceptions.*;
+import tech.bts.cardgame.model.Card;
+import tech.bts.cardgame.model.Deck;
+import tech.bts.cardgame.model.Game;
 
 import java.util.Arrays;
 import java.util.HashSet;
