@@ -8,6 +8,7 @@ public class Game {
 
     public enum State { OPEN, PLAYING }
 
+    private long id;
     private final Deck deck;
     private State state;
     private Map<String, Player> playersByUsername;
@@ -16,6 +17,14 @@ public class Game {
         this.deck = deck;
         this.state = State.OPEN;
         this.playersByUsername = new HashMap<>();
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public State getState() {
