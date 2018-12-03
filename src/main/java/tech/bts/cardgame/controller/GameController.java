@@ -7,6 +7,9 @@ import tech.bts.cardgame.model.Game;
 import tech.bts.cardgame.model.GameUser;
 import tech.bts.cardgame.service.GameService;
 
+import java.util.Collection;
+import java.util.List;
+
 @RestController
 public class GameController {
 
@@ -22,6 +25,12 @@ public class GameController {
 
         Game game = gameService.createGame();
         return game.getId();
+    }
+
+    @RequestMapping(method = RequestMethod.GET, path = "/games")
+    public Collection<Game> getAllGames() {
+
+        return gameService.getAllGames();
     }
 
     @RequestMapping(method = RequestMethod.PUT, path = "/games/{gameId}/join")
