@@ -8,40 +8,42 @@ import tech.bts.cardgame.model.GameUser;
 import tech.bts.cardgame.service.GameService;
 
 import java.util.Collection;
-import java.util.List;
+
+import static org.springframework.web.bind.annotation.RequestMethod.*;
 
 @RestController
-public class GameController {
+@RequestMapping(path = "/api/games")
+public class GameApiController {
 
     private GameService gameService;
 
     @Autowired
-    public GameController(GameService gameService) {
+    public GameApiController(GameService gameService) {
         this.gameService = gameService;
     }
 
-    @RequestMapping(method = RequestMethod.POST, path = "/games")
+    @RequestMapping(method = POST)
     public long createGame() {
 
         Game game = gameService.createGame();
         return game.getId();
     }
 
-    @RequestMapping(method = RequestMethod.GET, path = "/games")
+    @RequestMapping(method = GET)
     public Collection<Game> getAllGames() {
 
         return gameService.getAllGames();
     }
 
-    @RequestMapping(method = RequestMethod.PUT, path = "/games/{gameId}/join")
-    public void joinGame(@RequestBody GameUser gameUser, @PathVariable("gameId") long gameId) {
+    @RequestMapping(method = PUT, path = "/{gameId}/join")
+    public void joinGame(@RequestBody GameUser gameUser, @PathVariable long gameId) {
 
         gameUser.setGameId(gameId);
         gameService.joinGame(gameUser);
     }
 
-    @RequestMapping(method = RequestMethod.PUT, path = "/games/{gameId}/pick")
-    public Card pickCard(@RequestBody GameUser gameUser, @PathVariable("gameId") long gameId) {
+    @RequestMapping(method = PUT, path = "/{gameId}/pick")
+    public Card pickCard(@RequestBody GameUser gameUser, @PathVariable long gameId) {
 
         gameUser.setGameId(gameId);
         return gameService.pickCard(gameUser);
