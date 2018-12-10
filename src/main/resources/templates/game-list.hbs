@@ -1,0 +1,7 @@
+<h1>List of games</h1>
+<p><a href="/games/create">Create game</a></p>
+<ul>
+    {{#each games}}
+        <li><a href="/games/{{id}}">Game {{id}}</a> is {{state}}</li>
+    {{/each}}
+</ul>

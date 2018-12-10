@@ -33,22 +33,19 @@ public class GameWebController {
 
     /** Returns the games (as HTML) */
     @RequestMapping(method = GET)
-    public String getAllGames() {
+    public String getAllGames() throws IOException {
 
-        String result = "<h1>List of games</h1>\n";
+        TemplateLoader loader = new ClassPathTemplateLoader();
+        loader.setPrefix("/templates");
+        loader.setSuffix(".hbs");
+        Handlebars handlebars = new Handlebars(loader);
 
-        result += "<p><a href=\"/games/create\">Create game</a></p>\n";
+        Template template = handlebars.compile("game-list");
 
-        result += "<ol>\n";
+        Map<String, Object> values = new HashMap<>();
+        values.put("games", gameService.getAllGames());
 
-        for (Game game : gameService.getAllGames()) {
-
-            result += "<li><a href=\"/games/" + game.getId() + "\">Game " + game.getId() + "</a> is " + game.getState() + "</li>\n";
-        }
-
-        result += "</ol>\n";
-
-        return result;
+        return template.apply(values);
     }
 
     /** Returns details of the game with the given gameId (as HTML) */
