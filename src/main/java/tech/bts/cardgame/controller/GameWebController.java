@@ -1,5 +1,9 @@
 package tech.bts.cardgame.controller;
 
+import com.github.jknack.handlebars.Handlebars;
+import com.github.jknack.handlebars.Template;
+import com.github.jknack.handlebars.io.ClassPathTemplateLoader;
+import com.github.jknack.handlebars.io.TemplateLoader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +15,8 @@ import tech.bts.cardgame.service.GameService;
 import javax.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
@@ -47,21 +53,22 @@ public class GameWebController {
 
     /** Returns details of the game with the given gameId (as HTML) */
     @RequestMapping(method = GET, path = "/{gameId}")
-    public String getGameById(@PathVariable long gameId) {
+    public String getGameById(@PathVariable long gameId) throws IOException {
 
         Game game = gameService.getGameById(gameId);
 
-        String result =
-                "<a href=\"/games\">Go back to game list</a>" +
-                "<h1>Game " + game.getId() + "</h1>" +
-                "<p>State: " + game.getState() + "</p>" +
-                "<p>Players: " + game.getPlayerNames() + "</p>";
+        TemplateLoader loader = new ClassPathTemplateLoader();
+        loader.setPrefix("/templates");
+        loader.setSuffix(".hbs");
+        Handlebars handlebars = new Handlebars(loader);
 
-        if (game.getState() == Game.State.OPEN) {
-            result += "<a href=\"/games/" + game.getId() + "/join\">Join game</a>";
-        }
+        Template template = handlebars.compile("game-detail");
 
-        return result;
+        Map<String, Object> values = new HashMap<>();
+        values.put("game", game);
+        values.put("gameIsOpen", game.getState() == Game.State.OPEN);
+
+        return template.apply(values);
     }
 
     @RequestMapping(method = GET, path = "/{gameId}/join")
