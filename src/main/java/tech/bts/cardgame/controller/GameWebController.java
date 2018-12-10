@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
+import static org.springframework.web.bind.annotation.RequestMethod.*;
 
 @RestController
 @RequestMapping(path = "/games")
@@ -60,11 +60,11 @@ public class GameWebController {
         return template.apply(values);
     }
 
-    @RequestMapping(method = GET, path = "/{gameId}/join")
-    public void joinGame(HttpServletResponse response, @PathVariable long gameId) throws IOException {
+    @RequestMapping(method = POST, path = "/join")
+    public void joinGame(HttpServletResponse response, GameUser gameUser) throws IOException {
 
-        gameService.joinGame(new GameUser(gameId, "Ferran"));
-        response.sendRedirect("/games/" + gameId);
+        gameService.joinGame(gameUser);
+        response.sendRedirect("/games/" + gameUser.getGameId());
     }
 
     /** Creates a new game and returns the games (as HTML) */

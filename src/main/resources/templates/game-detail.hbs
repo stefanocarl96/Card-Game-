@@ -4,6 +4,10 @@
 <p>Players: {{game.playerNames}}</p>
 
 {{#if gameIsOpen}}
-    <a href="/games/{{game.id}}/join">Join game</a>
+    <form action="/games/join" method="post">
+        <input type="hidden" name="gameId" value="{{game.id}}">
+        Username: <input type="text" name="username">
+        <button>Join game</button>
+    </form>
 {{/if}}
 
