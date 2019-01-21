@@ -35,6 +35,12 @@ public class GameApiController {
         return gameService.getAllGames();
     }
 
+    @RequestMapping(method = GET, path = "/{gameId}")
+    public Game getGameById(@PathVariable long gameId) {
+
+        return gameService.getGameById(gameId);
+    }
+
     @RequestMapping(method = PUT, path = "/{gameId}/join")
     public void joinGame(@RequestBody GameUser gameUser, @PathVariable long gameId) {
 
