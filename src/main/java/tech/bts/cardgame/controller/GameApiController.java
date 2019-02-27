@@ -38,7 +38,13 @@ public class GameApiController {
     @RequestMapping(method = GET, path = "/{gameId}")
     public Game getGameById(@PathVariable long gameId) {
 
-        return gameService.getGameById(gameId);
+        Game game = gameService.getGameById(gameId);
+
+        if (game != null) {
+            return game;
+        } else {
+            throw new IllegalArgumentException("Game ID doesn't exist" + gameId);
+        }
     }
 
     @RequestMapping(method = PUT, path = "/{gameId}/join")

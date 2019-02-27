@@ -1,26 +1,38 @@
 console.log("Games js loaded");
 
-//const gamesPromise = fetch("http://localhost:8080/api/games");
-const gamesPromise = axios.get("http://localhost:8080/api/games");
 
-gamesPromise
-    //.then(x => x.json()) // this is necessary when using fetch
-    .then(function(response) {
+const gamePromise = axios.get("/api/games/" + 1);
 
-        const games = response.data; // In axios you get a response object with the data inside
+gamePromise.then(function(response) {
 
-        // This function will be called when the data comes
-        // At this point, games contains the data that the end-point sends (the list of games)
+    const games = response.data;
+    displayGame(game);
+    })
+    .catch(function(error) {
+        console.log("There waas an error!", error);
+           dispalyError(error)
+
+    });
+
+function displayGame(game); )
 
         let gamesContainer = document.getElementById("games-container");
 
-        for (let game of games) {
 
-            const p = document.createElement("p");
-            p.textContent = `Game ${game.id} is ${game.state}`;
-            gamesContainer.appendChild(p);
+        const p = document.createElement("p");
+        p.textContent = `Game ${game.id} is ${game.state}`;
+        gamesContainer.appendChild(p);
         }
-    });
+     );
 
 
+function displayError(error); )
 
+let gamesContainer = document.getElementById("games-container");
+
+
+const p = document.createElement("p");
+p.textContent = `Game ${game.id} is ${game.state}`;
+gamesContainer.appendChild(p);
+
+);
