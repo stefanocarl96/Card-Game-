@@ -2,12 +2,15 @@ package tech.bts.cardgame.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import tech.bts.cardgame.controller.errors.GameNotExistsException;
 import tech.bts.cardgame.model.Card;
 import tech.bts.cardgame.model.Game;
 import tech.bts.cardgame.model.GameUser;
 import tech.bts.cardgame.service.GameService;
 
-import java.util.Collection;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.List;
 
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 
@@ -23,41 +26,36 @@ public class GameApiController {
     }
 
     @RequestMapping(method = POST)
-    public long createGame() {
-
+    public long createGame(){
         Game game = gameService.createGame();
         return game.getId();
     }
 
-    @RequestMapping(method = GET)
-    public Collection<Game> getAllGames() {
-
-        return gameService.getAllGames();
-    }
-
-    @RequestMapping(method = GET, path = "/{gameId}")
-    public Game getGameById(@PathVariable long gameId) {
-
-        Game game = gameService.getGameById(gameId);
-
-        if (game != null) {
-            return game;
-        } else {
-            throw new IllegalArgumentException("Game ID doesn't exist" + gameId);
-        }
-    }
-
     @RequestMapping(method = PUT, path = "/{gameId}/join")
     public void joinGame(@RequestBody GameUser gameUser, @PathVariable long gameId) {
-
         gameUser.setGameId(gameId);
         gameService.joinGame(gameUser);
     }
 
     @RequestMapping(method = PUT, path = "/{gameId}/pick")
-    public Card pickCard(@RequestBody GameUser gameUser, @PathVariable long gameId) {
-
+    public Card pickCard(@RequestBody GameUser gameUser, @PathVariable long gameId){
         gameUser.setGameId(gameId);
         return gameService.pickCard(gameUser);
+    }
+
+    @RequestMapping(method = GET)
+    public List<Game> getAllGames(){
+        return gameService.getAllGames();
+    }
+
+    @RequestMapping (method = GET, path = "/{gameId}")
+    public Game getGameById(@PathVariable long gameId){
+        Game game = gameService.getGameById(gameId);
+
+        if (game != null) {
+            return game;
+        } else {
+            throw new GameNotExistsException();
+        }
     }
 }
